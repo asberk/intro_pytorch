@@ -10,8 +10,10 @@ Created: 10 February 2020
 Commentary:
    Mostly for decluttering the other script
 """
+import os
 import argparse
 import numpy as np
+import torch
 import torch.optim as optim
 
 
@@ -138,6 +140,24 @@ def _parse_shuffle(shuffle):
     else:
         raise TypeError(f"shuffle {shuffle} not recognized.")
     return shuffle
+
+
+def checkpoint(model, filename, parent_dir=None):
+    if parent_dir is None:
+        parent_dir = "."
+    filepath = os.path.join(parent_dir, filename)
+    torch.save(model.state_dict(), filepath)
+    print(f"Saved model to {filepath}")
+    return
+
+
+def load_model(model, filename, parent_dir=None, map_location=None):
+    if parent_dir is None:
+        parent_dir = "."
+    filepath = os.path.join(parent_dir, filename)
+    return model.load_state_dict(
+        torch.load(filepath, map_location=map_location)
+    )
 
 
 # # util.py ends here

@@ -1,3 +1,5 @@
+from time import time
+from collections import defaultdict
 import torch
 from torch import nn, optim
 from torch.optim.lr_scheduler import ExponentialLR
@@ -75,3 +77,90 @@ def create_eval_fn(model, criterion):
         return loss_value, accuracy_value
 
     return eval_fn
+
+
+def fancy_train_model(
+    model, loaders, criterion, optimizer, scheduler, **kwargs
+):
+    """
+    train_model(model, loaders, **kwargs)
+
+    Inputs
+    ------
+    model
+    loaders
+    criterion
+    optimizer
+    scheduler
+    num_epochs
+    device
+
+    Returns
+    -------
+    model
+    history
+    """
+    num_epochs = kwargs.get("num_epochs", 100)
+    history = defaultdict(list)
+    dataset_sizes = {g: len(dl.dataset) for g, dl in loaders.items()}
+
+    t00 = time()
+    for epoch in range(num_epochs):
+        for phase in ["train", "val"]:
+            t0 = time()
+            if phase == "train":
+                scheduler.step()
+                model.train()  # set model to training mode
+            else:
+                model.eval()  # set model to evaluate mode
+
+            running_loss = 0.0
+            running_corrects = 0
+
+            # Iterate over data in batches
+            for batch in loaders[phase]:
+                images, labels = batch
+
+                # zero the parameter gradients
+                optimizer.zero_grad()
+
+                # Forward pass
+                # track history only in train
+                with torch.set_grad_enabled(phase == "train"):
+                    outputs = model(images)
+                    _, predictions = torch.max(outputs, 1)
+                    loss = criterion(outputs, labels)
+
+                    # Backward + optimize only if in training phase
+                    if phase == "train":
+                        loss.backward()
+                        optimizer.step()
+
+                # Statistics
+                running_loss += loss.item() * images.size(0)
+                running_corrects += torch.sum(predictions == labels.data)
+                avg_loss = running_loss / dataset_sizes[phase]
+                avg_acc = (
+                    running_corrects.double().cpu().numpy()
+                    / dataset_sizes[phase]
+                )
+            history[f"{phase}_loss"].append(avg_loss)
+            history[f"{phase}_acc"].append(avg_acc)
+            t1 = time()
+            print(
+                f"Epoch {epoch} "
+                f"{phase} loss: {avg_loss:.4f} {phase} acc: {avg_acc:.4f} "
+                f"({t1 - t0:.1f} sec)"
+            )
+    t_end = time()
+    duration = t_end - t00
+    duration_s = duration % 60
+    duration_m = duration // 60
+    duration_h = int(duration_m // 60)
+    duration_m = int(duration_m % 60)
+    print(
+        f"Training complete in {duration_h}h {duration_m}m "
+        f"{duration_s:.1f}s"
+    )
+    print("Returning FINAL model.")
+    return model, history
