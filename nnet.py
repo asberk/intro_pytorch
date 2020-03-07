@@ -1,3 +1,12 @@
+"""
+nnet
+
+Neural network modules
+
+Author: Aaron Berk <aberk@math.ubc.ca>
+Copyright © 2020, Aaron Berk, all rights reserved.
+Created:  6 March 2020
+"""
 import torch
 from torch import nn
 
@@ -34,3 +43,6 @@ class SmallNetwork(nn.Module):
         out = torch.relu(self.fc1(x))
         out = self.fc2(out)
         return out
+
+
+# # nnet.py ends here

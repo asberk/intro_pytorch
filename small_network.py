@@ -6,10 +6,6 @@ This file is an introduction to using PyTorch for training and evaluating neural
 Author: Aaron Berk <aberk@math.ubc.ca>
 Copyright © 2020, Aaron Berk, all rights reserved.
 Created: 10 February 2020
-
-Commentary:
-   Run this file from the terminal via:
-   > python3 main.py
 """
 import os
 from datetime import datetime

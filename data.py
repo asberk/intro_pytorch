@@ -1,3 +1,12 @@
+"""
+data
+
+Utilities for managing and loading data and DataLoader objects
+
+Author: Aaron Berk <aberk@math.ubc.ca>
+Copyright © 2020, Aaron Berk, all rights reserved.
+Created:  6 March 2020
+"""
 import numpy as np
 from sklearn.datasets import make_swiss_roll as _make_swiss_roll
 from sklearn.model_selection import train_test_split
@@ -186,3 +195,6 @@ def make_dataloaders(
     if make_eval_train:
         return dl_train, dl_eval_train, dl_test
     return dl_train, dl_test
+
+
+# # data.py ends here

@@ -1,3 +1,12 @@
+"""
+wavelet_example
+
+Machine learning example using wavelet transformed MNIST digits.
+
+Author: Aaron Berk <aberk@math.ubc.ca>
+Copyright © 2020, Aaron Berk, all rights reserved.
+Created:  6 March 2020
+"""
 import numpy as np
 
 import torch
@@ -99,3 +108,5 @@ if __name__ == "__main__":
         print("epoch", epoch)
         print("train loss:", train_loss[-1], "acc:", train_acc[-1])
         print(" test loss:", test_loss[-1], "acc:", test_acc[-1])
+
+# # wavelet_example.py ends here

@@ -1,3 +1,13 @@
+"""
+train
+
+Utilities for training setup and training updates
+
+Author: Aaron Berk <aberk@math.ubc.ca>
+Copyright © 2020, Aaron Berk, all rights reserved.
+Created:  6 March 2020
+"""
+
 from time import time
 from collections import defaultdict
 import torch
@@ -164,3 +174,6 @@ def fancy_train_model(
     )
     print("Returning FINAL model.")
     return model, history
+
+
+# # train.py ends here

@@ -1,3 +1,12 @@
+"""
+viz
+
+Functions for visualization.
+
+Author: Aaron Berk <aberk@math.ubc.ca>
+Copyright © 2020, Aaron Berk, all rights reserved.
+Created:  6 March 2020
+"""
 import matplotlib.pyplot as plt
 
 
@@ -17,3 +26,6 @@ def show_image(img_or_sample):
     plt.tight_layout()
     plt.show()
     return fig, ax
+
+
+# # viz.py ends here
