@@ -4,13 +4,14 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader
 from torchvision.datasets import MNIST
 
+from data import DATA_DIR
 from nnet import SimpleNet
 from train import train_setup, create_train_fn, create_eval_fn
 from util import _parse_batch_size, _parse_shuffle
 from wvlt import WaveletTransformer
 
-mnist_train = MNIST("./tmp/", download=False)
-mnist_test = MNIST("./tmp/", download=False)
+mnist_train = MNIST(DATA_DIR, download=False)
+mnist_test = MNIST(DATA_DIR, download=False)
 
 
 def get_wcoefs(tens_array, wname="db1", dim=2):

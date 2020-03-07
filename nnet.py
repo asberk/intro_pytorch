@@ -32,5 +32,5 @@ class SmallNetwork(nn.Module):
         Dense network with ReLU activation function applied to all but final layer.
         """
         out = torch.relu(self.fc1(x))
-        out = self.fc2(x)
+        out = self.fc2(out)
         return out

@@ -5,7 +5,7 @@ from torchvision import datasets, transforms
 import torch
 from torch.utils.data import DataLoader, Subset, TensorDataset
 
-from utils import _parse_batch_size, _parse_shuffle
+from util import _parse_batch_size, _parse_shuffle
 
 DATA_DIR = "./data/"
 
