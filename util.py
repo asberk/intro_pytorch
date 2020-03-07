@@ -11,6 +11,7 @@ Commentary:
    Mostly for decluttering the other script
 """
 import argparse
+import numpy as np
 import torch.optim as optim
 
 
@@ -107,6 +108,36 @@ def get_optimizer_class(optimizer_name, **kwargs):
             return optim.SGD(parms, **passed_sgd_args)
 
     return optimizer
+
+
+def _parse_batch_size(batch_size):
+    if batch_size is None:
+        batch_size = (16, 128)
+    elif isinstance(batch_size, np.int):
+        batch_size = (batch_size, batch_size)
+    elif isinstance(batch_size, (tuple, list)):
+        assert len(batch_size) == 2, f"expected two entries for batch_size"
+        assert all(
+            isinstance(x, np.int) for x in batch_size
+        ), f"expected ints for batch_size"
+    else:
+        raise TypeError(f"batch_size {batch_size} not recognized.")
+    return batch_size
+
+
+def _parse_shuffle(shuffle):
+    if shuffle is None:
+        shuffle = (True, False)
+    elif isinstance(shuffle, bool):
+        shuffle = (shuffle, shuffle)
+    elif isinstance(shuffle, (tuple, list)):
+        assert len(shuffle) == 2, f"expected two entries for shuffle"
+        assert all(
+            isinstance(x, bool) for x in shuffle
+        ), f"expected bools for shuffle"
+    else:
+        raise TypeError(f"shuffle {shuffle} not recognized.")
+    return shuffle
 
 
 # # util.py ends here
