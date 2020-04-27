@@ -114,11 +114,14 @@ def get_optimizer_class(optimizer_name, **kwargs):
 
 def _parse_batch_size(batch_size):
     if batch_size is None:
-        batch_size = (16, 128)
+        batch_size = (16, 128, 128)
     elif isinstance(batch_size, np.int):
-        batch_size = (batch_size, batch_size)
+        batch_size = (batch_size, batch_size, batch_size)
     elif isinstance(batch_size, (tuple, list)):
-        assert len(batch_size) == 2, f"expected two entries for batch_size"
+        assert len(batch_size) in [
+            2,
+            3,
+        ], f"expected two or three entries for batch_size"
         assert all(
             isinstance(x, np.int) for x in batch_size
         ), f"expected ints for batch_size"
@@ -129,11 +132,14 @@ def _parse_batch_size(batch_size):
 
 def _parse_shuffle(shuffle):
     if shuffle is None:
-        shuffle = (True, False)
+        shuffle = (True, False, False)
     elif isinstance(shuffle, bool):
-        shuffle = (shuffle, shuffle)
+        shuffle = (shuffle, shuffle, shuffle)
     elif isinstance(shuffle, (tuple, list)):
-        assert len(shuffle) == 2, f"expected two entries for shuffle"
+        assert len(shuffle) in [
+            2,
+            3,
+        ], f"expected two or three entries for shuffle"
         assert all(
             isinstance(x, bool) for x in shuffle
         ), f"expected bools for shuffle"

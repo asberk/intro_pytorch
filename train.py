@@ -135,7 +135,7 @@ def fancy_train_model(
                 optimizer.zero_grad()
 
                 # Forward pass
-                # track history only in train
+                # track gradients only in train
                 with torch.set_grad_enabled(phase == "train"):
                     outputs = model(images)
                     _, predictions = torch.max(outputs, 1)

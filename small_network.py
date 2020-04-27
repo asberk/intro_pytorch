@@ -17,7 +17,7 @@ from train import fancy_train_model, train_setup
 from util import checkpoint
 
 
-def main(lr=1e-4, step_size=30, gamma=0.5, hidden_size=100, num_epochs=20):
+def main(lr=1e-4, gamma=0.5, hidden_size=100, num_epochs=20):
     loaders = load_small_mnist_data()
     dataset_sizes = {
         g: np.prod(dl.dataset[0][0].shape) for g, dl in loaders.items()
@@ -27,7 +27,7 @@ def main(lr=1e-4, step_size=30, gamma=0.5, hidden_size=100, num_epochs=20):
     input_size = dataset_sizes["train"]
 
     model = SmallNetwork(input_size, hidden_size=hidden_size, num_classes=10)
-    criterion, optimizer, scheduler = train_setup(model, lr=lr)
+    criterion, optimizer, scheduler = train_setup(model, lr=lr, gamma=gamma)
 
     final_model, history = fancy_train_model(
         model, loaders, criterion, optimizer, scheduler, num_epochs=num_epochs

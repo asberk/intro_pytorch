@@ -156,7 +156,7 @@ def load_small_mnist_data(
 def make_swiss_roll_classification(
     n_samples=10000, noise=1, seed=None, n_segments=6
 ):
-    X, tt = _make_swiss_roll(n_samples, noise=1, random_state=seed)
+    X, tt = _make_swiss_roll(n_samples, noise=noise, random_state=seed)
     bins = np.linspace(tt.min(), tt.max(), n_segments, endpoint=False)
     tt_dig = np.digitize(tt, bins)
     y = np.where((tt_dig % 2) == 0, 0, 1)
